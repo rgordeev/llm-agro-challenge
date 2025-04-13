@@ -1,0 +1,22 @@
+{
+  "reports": [
+    {
+      "message_number": 1,
+      "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221",
+      "parsed": [
+        {
+          "division": "АОР",
+          "operation": "Пахота",
+          "dailyArea": 26,
+          "totalArea": 221
+        },
+        {
+          "division": "АОР",
+          "operation": "Пахота",
+          "dailyArea": 26,
+          "totalArea": 488
+        }
+      ]
+    }
+  ]
+}
