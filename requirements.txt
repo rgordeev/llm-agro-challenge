@@ -1,2 +1,11 @@
 # Приложение использует только стандартную библиотеку Python
 # Дополнительные зависимости не требуются 
+
+# Основные зависимости
+python-dateutil>=2.8.2
+typing-extensions>=4.5.0
+
+# Документация
+mkdocs>=1.4.2
+mkdocs-material>=9.1.0
+mkdocs-git-revision-date-localized-plugin>=1.2.0 

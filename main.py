@@ -10,7 +10,7 @@ import sys
 import json
 import logging
 import argparse
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Union
 
 from utils.input_processor import load_input_json
 from utils.text_parser import parse_messages
@@ -80,12 +80,12 @@ def setup_argument_parser() -> argparse.ArgumentParser:
     )
     return parser
 
-def process_data(input_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
+def process_data(input_data: Union[str, Dict[str, List[Dict[str, Any]]]]) -> Dict[str, List[Dict[str, Any]]]:
     """
     Обработка входных данных через весь конвейер.
     
     Args:
-        input_data (Dict[str, List[Dict[str, Any]]]): Входные данные
+        input_data (Union[str, Dict[str, List[Dict[str, Any]]]]): Входные данные или путь к файлу
         
     Returns:
         Dict[str, List[Dict[str, Any]]]: Обработанные данные
@@ -98,6 +98,10 @@ def process_data(input_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[
         
     logger = logging.getLogger(__name__)
     try:
+        # Если input_data - строка, считаем это путем к файлу
+        if isinstance(input_data, str):
+            input_data = load_input_json(input_data)
+            
         # 1. Парсинг сообщений
         logger.info("Начало парсинга сообщений...")
         parsed_data = parse_messages(input_data)

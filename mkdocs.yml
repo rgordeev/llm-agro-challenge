@@ -1,23 +1,63 @@
-site_name: LLM Agro Challenge
-site_description: Documentation for LLM Agro Challenge Project
+site_name: Agricultural Data Processing Application
+site_description: Приложение для обработки и анализа сельскохозяйственных данных
 site_author: Your Name
+site_url: https://your-site.com
 
 theme:
   name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - navigation.tabs
-    - navigation.sections
+    - navigation.expand
     - navigation.top
-    - search.suggest
     - search.highlight
+    - search.suggest
     - content.tabs.link
     - content.code.annotate
+    - content.code.copy
+
+repo_name: your-username/agricultural-data-processor
+repo_url: https://github.com/your-username/agricultural-data-processor
 
 nav:
-  - Home: index.md
-  - API Reference: api.md
-  - User Guide: guide.md
-  - Development: development.md
+  - Главная: index.md
+  - Начало работы:
+    - Установка: getting-started/installation.md
+    - Быстрый старт: getting-started/quickstart.md
+  - Руководство пользователя:
+    - Использование: user-guide/usage.md
+    - Форматы данных: user-guide/data-formats.md
+    - Логирование: user-guide/logging.md
+  - Руководство разработчика:
+    - Архитектура: developer-guide/architecture.md
+    - Модули: developer-guide/modules.md
+    - Тестирование: developer-guide/testing.md
+    - Обработка ошибок: developer-guide/error-handling.md
+  - Расширение функциональности:
+    - Новые операции: extending/new-operations.md
+    - Новые культуры: extending/new-crops.md
+    - Новые подразделения: extending/new-divisions.md
+    - Улучшение парсинга: extending/improving-parsing.md
+  - API:
+    - Справочные данные: api/reference-data.md
+    - Парсер: api/parser.md
+    - Валидатор: api/validator.md
+  - Примеры:
+    - Базовый пример: examples/basic.md
+    - Расширенный пример: examples/advanced.md
 
 markdown_extensions:
   - admonition
