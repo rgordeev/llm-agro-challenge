@@ -1,0 +1,628 @@
+{
+  "reports": [
+    {
+      "message_number": 1,
+      "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221\n\nПредп культ под оз пш\nПо Пу 215/1015\nОтд 12 128/317\nОтд 16 123/529\n\n2-е диск сах св под пш\nПо Пу 22/627\nОтд 11 22/217\n\n2-е диск сои под оз пш\nПо Пу 45/1907\nОтд 12 45/299",
+      "parsed": [
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Пахота",
+          "crop": "Многолетние травы",
+          "dailyArea": 26,
+          "totalArea": 488,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Предпосевная культивация",
+          "crop": "Пшеница озимая",
+          "dailyArea": 215,
+          "totalArea": 1015,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Пшеница озимая",
+          "dailyArea": 22,
+          "totalArea": 627,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Пшеница озимая",
+          "dailyArea": 45,
+          "totalArea": 1907,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 2,
+      "payload": "Пахота зяби под сою\nПо ПУ 7/1402\nОтд 17 7/141\n\nВырав-ие зяби под кук/силос\nПо ПУ 16/16\nОтд 12 16/16\n\nВырав-ие зяби под сах/свёклу\nПо ПУ 67/912\nОтд 12 67/376\n\n2-ое диск-ие сах/свёкла\nПо ПУ 59/1041\nОтд 17 59/349",
+      "parsed": [
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Пахота",
+          "crop": "Соя",
+          "dailyArea": 7,
+          "totalArea": 1402,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Выравнивание зяби",
+          "crop": "Кукуруза кормовая",
+          "dailyArea": 16,
+          "totalArea": 16,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Выравнивание зяби",
+          "crop": "Свекла сахарная",
+          "dailyArea": 67,
+          "totalArea": 912,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Свекла сахарная",
+          "dailyArea": 59,
+          "totalArea": 1041,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 3,
+      "payload": "12.10\nВнесение мин удобрений под оз пшеницу 2025 г ПУ Юг\n149/7264\nОтд 17-149/1443",
+      "parsed": [
+        {
+          "date": "12 окт",
+          "division": "Юг",
+          "operation": "Внесение минеральных удобрений",
+          "crop": "Пшеница озимая",
+          "dailyArea": 149,
+          "totalArea": 7264,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 4,
+      "payload": "Север\nОтд7 пах с св 41/501\nОтд20 20/281 по пу 61/793\nОтд 3 пах подс.св/231\nПо пу 231\n\nДиск к. Сил отд 7. 32/352\nПу- 484\nДиск под Оз п езуб20 20/281\nДиск под с. Св отд 10 83/203 пу-1065га",
+      "parsed": [
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Пахота",
+          "crop": "Свекла сахарная",
+          "dailyArea": 61,
+          "totalArea": 793,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Пахота",
+          "crop": "Подсолнечник товарный",
+          "dailyArea": 60,
+          "totalArea": 231,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Кукуруза кормовая",
+          "dailyArea": 32,
+          "totalArea": 484,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Пшеница озимая",
+          "dailyArea": 20,
+          "totalArea": 281,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Свекла сахарная",
+          "dailyArea": 83,
+          "totalArea": 203,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 5,
+      "payload": "Внесение удобрений под рапс отд 7 -138/270\nДискование под рапс 40/172\nДиск после Кук сил отд 7-32/352 по пу 484га",
+      "parsed": [
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Внесение минеральных удобрений",
+          "crop": "Рапс озимый",
+          "dailyArea": 138,
+          "totalArea": 270,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Рапс озимый",
+          "dailyArea": 40,
+          "totalArea": 172,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Кукуруза кормовая",
+          "dailyArea": 32,
+          "totalArea": 484,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 6,
+      "payload": "10.03 день\n2-я подкормка озимых, ПУ \"ЮГ\" - 1749/2559\n(в т.ч Амазон-1082/1371\nПневмоход-667/1188)\n\nОтд11- 307/307 (амазон 307/307)\n\nОтд 12- 671/671( амазон 318/318; пневмоход 353/353)\n\nОтд 16- 462/1272( амазон 148/437; пневмоход 314/835)\n\nОтд 17- 309/309( амазон 309/309)",
+      "parsed": [
+        {
+          "date": "10.03.2024",
+          "division": "АОР",
+          "operation": "2-я подкормка",
+          "crop": "Пшеница озимая",
+          "dailyArea": 1749,
+          "totalArea": 2559,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 7,
+      "payload": "Уборка свеклы 27.10.день\nОтд10-45/216\nПо ПУ 45/1569\nВал 1259680/66606030\nУрожайность 279.9/308,3\nПо ПУ 1259680/41630600\nНа завод 1811630/6430580\nПо ПУ 1811630/41400550\nПоложено в кагат 399400\nВывезено с кагата 951340\nОстаток 230060\nО-9,04/12,58\nДигестия-14,50/15,05",
+      "parsed": [
+        {
+          "date": "27.10.2024",
+          "division": "АОР",
+          "operation": "Уборка",
+          "crop": "Свекла сахарная",
+          "dailyArea": 45,
+          "totalArea": 1569,
+          "dailyYield": 12596.80,
+          "totalYield": 66606.30
+        }
+      ]
+    },
+    {
+      "message_number": 8,
+      "payload": "Пахота под сах св\nПо Пу 77/518\nОтд 12 46/298\nОтд 16 21/143\nОтд 17 10/17\nЧизел под оз ячмень \nПо Пу 22/640\nОтд 11 22/242\nЧизел под оз зел корм\nОтд 11 40/40\nДиск оз пшеницы\nПо Пу 28/8872\nОтд 17 28/2097\n2-е диск под сах св\nПо Пу 189/1763\nОтд 11 60/209\nОтд 12 122/540\nОтд 17 7/172\nДиск кук силос\nПо Пу 6/904\nОтд 11 6/229\nПрик под оз ячмень\nПо Пу 40/498\nОтд 11 40/100\nУборка сои (семенной)\nОтд 11 65/65\nВал 58720\nУрож 9",
+      "parsed": [
+        {
+          "date": null,
+          "division": "Юг",
+          "operation": "Пахота",
+          "crop": "Свекла сахарная",
+          "dailyArea": 77,
+          "totalArea": 518,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Чизелевание",
+          "crop": "Ячмень озимый",
+          "dailyArea": 22,
+          "totalArea": 640,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Чизелевание",
+          "crop": "Пшеница озимая на зеленый корм",
+          "dailyArea": 40,
+          "totalArea": 40,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Пшеница озимая",
+          "dailyArea": 28,
+          "totalArea": 8872,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Свекла сахарная",
+          "dailyArea": 189,
+          "totalArea": 1763,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Кукуруза кормовая",
+          "dailyArea": 6,
+          "totalArea": 904,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Прикатывание посевов",
+          "crop": "Ячмень озимый",
+          "dailyArea": 40,
+          "totalArea": 498,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Уборка",
+          "crop": "Соя семенная",
+          "dailyArea": 65,
+          "totalArea": 65,
+          "dailyYield": 587.20,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 9,
+      "payload": "Пахота под сах св\nПьПу 91/609\nОтд 11 13/73\nОтд 12 49/347\nОтд 16 20/163\nОтд 17 9/26\n\nЧизел под оз зел корм\nОтд 11 60/100\n\n2-е диск под сах св\nПь Пу 53/1816\nОтд 12 53/593\n\nДиск кук силос\nПь Пу 66/970\nОтд 11 66/295\n\nДиск сах св\nОтд 12 13/13\n\nПрикат под оз ячмень\nПь Пу 40/538\nОтд 11 40/140\n\nУборка сои семенной\nОтд 11 29/94\nВал 37400/96120\nУрож 12,9/10,2",
+      "parsed": [
+        {
+          "date": null,
+          "division": "Юг",
+          "operation": "Пахота",
+          "crop": "Свекла сахарная",
+          "dailyArea": 91,
+          "totalArea": 609,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Чизелевание",
+          "crop": "Пшеница озимая на зеленый корм",
+          "dailyArea": 60,
+          "totalArea": 100,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Свекла сахарная",
+          "dailyArea": 53,
+          "totalArea": 1816,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Кукуруза кормовая",
+          "dailyArea": 66,
+          "totalArea": 970,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Свекла сахарная",
+          "dailyArea": 13,
+          "totalArea": 13,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Прикатывание посевов",
+          "crop": "Ячмень озимый",
+          "dailyArea": 40,
+          "totalArea": 538,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Уборка",
+          "crop": "Соя семенная",
+          "dailyArea": 29,
+          "totalArea": 94,
+          "dailyYield": 374.00,
+          "totalYield": 961.20
+        }
+      ]
+    },
+    {
+      "message_number": 10,
+      "payload": "Пахота под сах св\nПо Пу 88/329\nОтд 11 23/60\nОтд 12 34/204\nОтд 16 31/65\n\nПахота под мн тр\nПо Пу 10/438\nОтд 17 10/80\n\nЧизел под оз ячмень\nПо Пу 71/528\nОтд 11 71/130\n\n2-е диск под сах св\nПо Пу 80/1263\nОтд 12 80/314\n\n2-е диск под оз ячмень\nПо Пу 97/819\nОтд 17 97/179\n\nДиск кук силос\nПо Пу 43/650\nОтд 11 33/133\nОтд 12 10/148\n\nВыкаш отц форм под/г\nОтд 12 10/22\n\nУборка сах св\nОтд 12 16/16\nВал 473920\nУрож 296,2\nДиг - 19,19\nОз - 5,33",
+      "parsed": [
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Пахота",
+          "crop": "Свекла сахарная",
+          "dailyArea": 88,
+          "totalArea": 329,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Пахота",
+          "crop": "Многолетние травы текущего года",
+          "dailyArea": 10,
+          "totalArea": 438,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Чизелевание",
+          "crop": "Ячмень озимый",
+          "dailyArea": 71,
+          "totalArea": 528,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Свекла сахарная",
+          "dailyArea": 80,
+          "totalArea": 1263,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование 2-е",
+          "crop": "Ячмень озимый",
+          "dailyArea": 97,
+          "totalArea": 819,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Дискование",
+          "crop": "Кукуруза кормовая",
+          "dailyArea": 43,
+          "totalArea": 650,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "АОР",
+          "operation": "Уборка",
+          "crop": "Свекла сахарная",
+          "dailyArea": 16,
+          "totalArea": 16,
+          "dailyYield": 4739.20,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 11,
+      "payload": "20.11 Мир\nПахота зяби под сою 100 га день, 1109 га от начала, 97%, 30 га остаток.\nРаботало 4 агрегата.\nВыравнивание зяби под подсолнечник 47 га день, 141 га от начала, 29 %, остаток 565 га. Работал 1 агрегат\n\nОсадки:\nБригада 1 Воронежская - 6 мм",
+      "parsed": [
+        {
+          "date": "20.11",
+          "division": "Мир",
+          "operation": "Пахота",
+          "crop": "Соя товарная",
+          "dailyArea": 100,
+          "totalArea": 1109,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": "21.11",
+          "division": "Мир",
+          "operation": "Выравнивание зяби",
+          "crop": "Подсолнечник товарный",
+          "dailyArea": 47,
+          "totalArea": 141,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 12,
+      "payload": "ТСК\nВыравнивание зяби под сою 25 га/ с нарастающим 765 га (13%) Остаток 5332 га\nВыравнивание зяби под кукурузу 131 га (3%) Остаток 4486 га\nОсадки 1мм",
+      "parsed": [
+        {
+          "date": null,
+          "division": "ТСК",
+          "operation": "Пахота",
+          "crop": "Соя товарная",
+          "dailyArea": 25,
+          "totalArea": 765,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "ТСК",
+          "operation": "Выравнивание зяби",
+          "crop": "Кукуруза товарная",
+          "dailyArea": 131,
+          "totalArea": 131,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 13,
+      "payload": "Восход\nПосев кук-24/252га\n24%\nПредпосевная культ\nПод кук-94/490га46%\nСЗРоз пш-103/557га\n25%\nПодкормка оз рапс-\n152га , 100%, подкормка овса-97га, 50%\nДовсходовое боронование подсолнечника-524\nга, 100%.",
+      "parsed": [
+        {
+          "date": null,
+          "division": "Восход",
+          "operation": "Сев",
+          "crop": "Кукуруза товарная",
+          "dailyArea": 24,
+          "totalArea": 252,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "Восход",
+          "operation": "Предпосевная культивация",
+          "crop": "Кукуруза товарная",
+          "dailyArea": 94,
+          "totalArea": 490,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "Восход",
+          "operation": "Гербицидная обработка",
+          "crop": "Пшеница озимая товарная",
+          "dailyArea": 103,
+          "totalArea": 557,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "Восход",
+          "operation": "Подкормка",
+          "crop": "Рапс озимый",
+          "dailyArea": 152,
+          "totalArea": 152,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "Восход",
+          "operation": "Подкормка",
+          "crop": "Овес",
+          "dailyArea": 97,
+          "totalArea": 97,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": null,
+          "division": "Восход",
+          "operation": "Боронование довсходовое",
+          "crop": "Подсолнечник товарный",
+          "dailyArea": 524,
+          "totalArea": 524,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    },
+    {
+      "message_number": 14,
+      "payload": "30.03.25г.\nСП Коломейцево\n\nпредпосевная культивация\n-под подсолнечник\n  день 30га\n  от начала 187га(91%)\n\nсев подсолнечника\n  день+ночь 57га\n  от начала 157га(77%)\n\nВнесение почвенного гербицида по подсолнечнику\n  день 82га\n  от начала 82га (38%)",
+      "parsed": [
+        {
+          "date": "30.3",
+          "division": "СП Коломейцево",
+          "operation": "Предпосевная культивация",
+          "crop": "Подсолнечник товарный",
+          "dailyArea": 30,
+          "totalArea": 187,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": "30.3",
+          "division": "СП Коломейцево",
+          "operation": "Сев",
+          "crop": "Подсолнечник товарный",
+          "dailyArea": 57,
+          "totalArea": 157,
+          "dailyYield": null,
+          "totalYield": null
+        },
+        {
+          "date": "30.3",
+          "division": "СП Коломейцево",
+          "operation": "Гербицидная обработка",
+          "crop": "Подсолнечник товарный",
+          "dailyArea": 82,
+          "totalArea": 82,
+          "dailyYield": null,
+          "totalYield": null
+        }
+      ]
+    }
+  ]
+} 
