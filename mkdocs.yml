@@ -1,0 +1,42 @@
+site_name: LLM Agro Challenge
+site_description: Documentation for LLM Agro Challenge Project
+site_author: Your Name
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotate
+
+nav:
+  - Home: index.md
+  - API Reference: api.md
+  - User Guide: guide.md
+  - Development: development.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - pymdownx.tilde 
