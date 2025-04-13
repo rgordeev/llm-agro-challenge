@@ -1,140 +1,163 @@
-# Agricultural Data Processing Application
+# Обработчик сельскохозяйственных данных
 
-## Overview
+## Назначение проекта
 
-This application processes unstructured agricultural data in JSON format and transforms it into a structured format with proper data validation. It parses text descriptions of farming operations, extracts key information about operations, crops, areas, and yields, and produces a standardized JSON output.
+Приложение предназначено для обработки неструктурированных текстовых данных о сельскохозяйственных операциях. Оно преобразует текстовые сообщения в структурированный формат JSON, извлекая информацию о:
+- Типах операций (пахота, боронование и т.д.)
+- Культурах
+- Подразделениях и отделах
+- Площадях (дневной и общей)
+- Датах проведения работ
 
-## Features
+## Установка
 
-- Extracts structured data from unstructured Russian text in JSON input
-- Identifies operations, crops, divisions, areas, and yields
-- Validates data against reference lists of valid values
-- Handles errors and corrects common mistakes
-- Formats output according to a standardized schema
-
-## Requirements
-
-- Python 3.7 or higher
-- No external dependencies required (only standard library)
-
-## Project Structure
-
-```
-agricultural_data_processor/
-│
-├── main.py                  # Main entry point
-├── config/
-│   └── reference_data.py    # Reference lists/dictionaries
-│
-├── utils/
-│   ├── __init__.py
-│   ├── input_processor.py   # Input JSON handling
-│   ├── text_parser.py       # Text analysis functionality
-│   ├── validator.py         # Data validation
-│   ├── error_handler.py     # Error management
-│   └── output_formatter.py  # Output JSON formatting
-│
-└── tests/
-    ├── __init__.py
-    ├── test_input.json      # Sample input
-    ├── test_output.json     # Expected output
-    └── test_parser.py       # Parser tests
-```
-
-## Installation
-
-1. Clone this repository:
+1. Клонируйте репозиторий:
 ```bash
 git clone https://github.com/yourusername/agricultural-data-processor.git
 cd agricultural-data-processor
 ```
 
-2. No additional installation steps needed since the application uses only Python standard library.
+2. Дополнительная установка не требуется, так как приложение использует только стандартную библиотеку Python.
 
-## Usage
+## Использование
 
-Run the application from the command line:
-
+### Базовое использование
 ```bash
-python main.py input.json --output output.json
+python main.py input.json [--output output.json] [-v]
 ```
 
-Where:
-- `input.json` is your input file
-- `output.json` is the desired output file location (defaults to 'output.json' if not specified)
+Параметры:
+- `input.json` - входной файл с сообщениями (обязательный)
+- `--output output.json` - путь для сохранения результатов (по умолчанию: output.json)
+- `-v` или `--verbose` - включение подробного логирования
 
-### Input Format
-
-The application expects JSON input with this structure:
+### Пример входного файла (input.json)
 ```json
 {
   "messages": [
     {
       "id": 1,
       "date": "2025-04-12",
-      "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221\n..."
-    },
-    ...
+      "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221"
+    }
   ]
 }
 ```
 
-### Output Format
-
-The application produces output in this structure:
+### Пример выходного файла (output.json)
 ```json
 {
   "reports": [
     {
       "message_number": 1,
-      "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221\n...",
+      "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221",
       "parsed": [
         {
           "date": "12.04",
           "division": "АОР",
-          "operation": "Пахота",
-          "crop": "Многолетние травы текущего года",
+          "operation": "Пахота зяби",
+          "crop": "Многолетние травы",
           "dailyArea": 26,
-          "totalArea": 488,
-          "dailyYield": null,
-          "totalYield": null
-        },
-        ...
+          "totalArea": 221
+        }
       ]
-    },
-    ...
+    }
   ]
 }
 ```
 
-## How It Works
+## Как это работает
 
-The application processes the data through several stages:
+Приложение обрабатывает данные в несколько этапов:
 
-1. **Input Processing**: Loads and validates the input JSON
-2. **Text Parsing**: Extracts structured information from the text
-3. **Data Validation**: Validates extracted data against reference lists
-4. **Error Handling**: Detects and corrects errors, deals with missing data
-5. **Output Formatting**: Creates the final structured output
+1. **Загрузка данных**
+   - Чтение входного JSON файла
+   - Валидация структуры входных данных
+   - Подготовка сообщений к обработке
 
-## Reference Data
+2. **Парсинг текста**
+   - Разделение на блоки операций
+   - Извлечение основной информации (операции, культуры)
+   - Обработка метрик (площади, даты)
+   - Определение подразделений и отделов
 
-The application validates extracted data against several reference lists:
+3. **Валидация данных**
+   - Проверка операций по справочнику
+   - Валидация культур
+   - Проверка подразделений
+   - Коррекция опечаток и сокращений
 
-1. **Valid Operations**: List of valid agricultural operations
-2. **Division Structure**: Organization of divisions, regions, and departments
-3. **Valid Crops**: List of valid agricultural crops
+4. **Обработка ошибок**
+   - Заполнение пропущенных полей
+   - Логирование предупреждений
+   - Обработка несовместимых данных
 
-## Extending the Application
+5. **Формирование результата**
+   - Структурирование данных
+   - Сохранение в JSON формат
 
-To add support for new data types:
+## Структура проекта
 
-1. **Add New Crop Types**: Update the reference lists in `reference_data.py`
-2. **Support New Operations**: Add to the operations list in `reference_data.py`
-3. **Handle New Text Patterns**: Extend the parsing logic in `text_parser.py`
-4. **Add New Validation Rules**: Enhance validation in `validator.py`
+```
+agricultural_data_processor/
+│
+├── main.py                  # Точка входа
+├── config/
+│   ├── __init__.py
+│   └── reference_data.py    # Справочные данные
+│
+├── utils/
+│   ├── __init__.py
+│   ├── input_processor.py   # Обработка входных данных
+│   ├── text_parser.py       # Парсинг текста
+│   └── validator.py         # Валидация данных
+│
+└── tests/
+    ├── __init__.py
+    ├── test_data.json      # Тестовые данные
+    └── test_parser.py      # Тесты
+```
 
-## License
+## Расширение функциональности
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Добавление новых операций
+1. Добавьте операцию в `VALID_OPERATIONS` в `config/reference_data.py`
+2. При необходимости добавьте сокращения в `OPERATION_CORRECTIONS`
+
+### Добавление новых культур
+1. Добавьте культуру в `VALID_CROPS` в `config/reference_data.py`
+2. Добавьте сокращения в `CROP_ABBREVIATIONS`
+
+### Добавление новых подразделений
+1. Обновите структуру `DIVISIONS` в `config/reference_data.py`
+2. При необходимости обновите функции `get_division_from_department`
+
+### Улучшение парсинга
+1. Добавьте новые регулярные выражения в `utils/text_parser.py`
+2. Расширьте функции извлечения данных
+3. Добавьте обработку новых форматов
+
+## Логирование
+
+Приложение использует стандартный модуль `logging` с двумя обработчиками:
+- Консольный вывод (все сообщения уровня INFO и выше)
+- Файловый вывод в `app.log` (все сообщения уровня DEBUG и выше)
+
+## Обработка ошибок
+
+Приложение обрабатывает следующие типы ошибок:
+- Некорректный формат входных данных
+- Неизвестные операции и культуры
+- Несовместимые комбинации операций и культур
+- Некорректные даты и метрики
+- Отсутствующие обязательные поля
+
+## Требования
+
+- Python 3.7 или выше
+- Не требует дополнительных библиотек
+
+## Лицензия
+
+MIT License
 

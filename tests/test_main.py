@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch, mock_open
 
-from main import process_agricultural_data, main
+from main import process_data, main
 
 class TestAgriculturalDataProcessor(unittest.TestCase):
     def setUp(self):
@@ -33,20 +33,19 @@ class TestAgriculturalDataProcessor(unittest.TestCase):
         """Очистка после тестов"""
         self.temp_dir.cleanup()
 
-    def test_process_agricultural_data(self):
-        """Тест функции process_agricultural_data"""
-        result = process_agricultural_data(self.test_data)
+    def test_process_data(self):
+        """Тест функции process_data"""
+        result = process_data(self.test_data)
         
         # Проверяем структуру результата
-        self.assertIn("status", result)
-        self.assertIn("data", result)
-        self.assertEqual(result["status"], "success")
-        self.assertEqual(result["data"], self.test_data)
+        self.assertIn("reports", result)
+        self.assertIsInstance(result["reports"], list)
+        self.assertTrue(len(result["reports"]) > 0)
 
-    def test_process_agricultural_data_with_invalid_input(self):
+    def test_process_data_with_invalid_input(self):
         """Тест обработки некорректных данных"""
         with self.assertRaises(Exception):
-            process_agricultural_data(None)
+            process_data(None)
 
     @patch('sys.argv', ['main.py', 'tests/test_data.json', '--output', 'output.json'])
     def test_main_success(self):

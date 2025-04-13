@@ -5,11 +5,20 @@
 Справочные данные для валидации сельскохозяйственных данных.
 """
 
+import difflib
+import re
+from typing import Optional
+
 # Список допустимых операций
 VALID_OPERATIONS = [
     "1-я междурядная культивация",
     "2-я междурядная культивация",
+    "Боронование",
     "Боронование довсходовое",
+    "Боронование послевсходовое",
+    "Боронование легкое",
+    "Боронование среднее",
+    "Боронование тяжелое",
     "Внесение минеральных удобрений",
     "Выравнивание зяби",
     "2-е Выравнивание зяби",
@@ -23,6 +32,7 @@ VALID_OPERATIONS = [
     "Инсектицидная обработка",
     "Культивация",
     "Пахота",
+    "Пахота зяби",
     "Подкормка",
     "Предпосевная культивация",
     "Прикатывание посевов",
@@ -151,18 +161,15 @@ ABBREVIATIONS = {
 
 # Словарь исправлений для операций
 OPERATION_CORRECTIONS = {
+    "пахота зяби": "Пахота зяби",
+    "пахота": "Пахота",
     "борон": "Боронование",
-    "культ": "Культивация",
-    "пах": "Пахота",
     "сев": "Сев",
-    "убор": "Уборка",
-    "герб": "Гербицидная обработка",
-    "инсект": "Инсектицидная обработка",
-    "фунгиц": "Функицидная обработка",
-    "подкорм": "Подкормка",
-    "прикат": "Прикатывание посевов",
-    "диск": "Дискование",
-    "чизел": "Чизелевание"
+    "уборка": "Уборка",
+    "культивац": "Культивация",
+    "дискован": "Дискование",
+    "внесение": "Внесение минеральных удобрений",
+    "подкормка": "Подкормка"
 }
 
 # Словарь исправлений для культур
@@ -172,6 +179,20 @@ CROP_CORRECTIONS = {
     "травы": "Многолетние травы",
     "подсол": "Подсолнечник",
     "кукур": "Кукуруза"
+}
+
+# Словарь сокращений культур
+CROP_ABBREVIATIONS = {
+    "мн тр": "Многолетние травы",
+    "мн.тр": "Многолетние травы",
+    "мн. тр": "Многолетние травы",
+    "оз пш": "Озимая пшеница",
+    "оз.пш": "Озимая пшеница",
+    "оз. пш": "Озимая пшеница",
+    "подсолн": "Подсолнечник",
+    "кукур": "Кукуруза",
+    "яр яч": "Яровой ячмень",
+    "яр.яч": "Яровой ячмень"
 }
 
 def get_division_from_department(department_number: int) -> str:
@@ -212,7 +233,7 @@ def get_production_unit_from_department(department_number: int) -> str:
 
 def correct_operation(operation: str) -> str:
     """
-    Исправление названия операции.
+    Корректирует название операции, используя нечеткое сравнение.
     
     Args:
         operation (str): Исходное название операции
@@ -220,27 +241,62 @@ def correct_operation(operation: str) -> str:
     Returns:
         str: Исправленное название операции
     """
-    operation_lower = operation.lower()
+    if not operation:
+        return ""
+        
+    # Очистка и приведение к нижнему регистру
+    operation = operation.lower().strip()
+    
+    # Удаляем все после "под" или "по", так как это обычно относится к культуре или подразделению
+    operation = re.split(r'\s+(?:под|по)\s+', operation)[0].strip()
+    
+    # Проверяем точное совпадение
+    if operation in [op.lower() for op in VALID_OPERATIONS]:
+        return VALID_OPERATIONS[[op.lower() for op in VALID_OPERATIONS].index(operation)]
+    
+    # Проверяем по словарю коррекций
     for key, value in OPERATION_CORRECTIONS.items():
-        if key in operation_lower:
+        if key in operation:
             return value
+    
+    # Используем нечеткое сравнение для остальных операций
+    matches = difflib.get_close_matches(operation, [op.lower() for op in VALID_OPERATIONS], n=1, cutoff=0.8)
+    if matches:
+        return VALID_OPERATIONS[[op.lower() for op in VALID_OPERATIONS].index(matches[0])]
+    
     return operation
 
-def correct_crop(crop: str) -> str:
+def correct_crop(crop: Optional[str]) -> Optional[str]:
     """
-    Исправление названия культуры.
+    Корректирует название культуры.
     
     Args:
-        crop (str): Исходное название культуры
+        crop (Optional[str]): Исходное название культуры
         
     Returns:
-        str: Исправленное название культуры
+        Optional[str]: Исправленное название культуры
     """
-    crop_lower = crop.lower()
-    for key, value in CROP_CORRECTIONS.items():
-        if key in crop_lower:
-            return value
-    return crop
+    if not crop:
+        return None
+        
+    # Очистка и приведение к нижнему регистру
+    crop = crop.lower().strip()
+    
+    # Проверка на сокращения
+    for abbr, full_name in CROP_ABBREVIATIONS.items():
+        if abbr in crop:
+            return full_name
+            
+    # Проверка точного совпадения
+    if crop in [c.lower() for c in VALID_CROPS]:
+        return VALID_CROPS[[c.lower() for c in VALID_CROPS].index(crop)]
+        
+    # Нечеткое сравнение
+    matches = difflib.get_close_matches(crop, [c.lower() for c in VALID_CROPS], n=1, cutoff=0.8)
+    if matches:
+        return VALID_CROPS[[c.lower() for c in VALID_CROPS].index(matches[0])]
+        
+    return None
 
 def expand_abbreviation(abbr: str) -> str:
     """

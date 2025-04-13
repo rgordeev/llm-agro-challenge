@@ -18,16 +18,41 @@ from utils.validator import validate_parsed_data
 from utils.error_handler import handle_errors
 from utils.output_formatter import format_output
 
-# Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('processing.log', encoding='utf-8')
-    ]
-)
-logger = logging.getLogger(__name__)
+def setup_logging(verbose: bool = False) -> None:
+    """
+    Настройка системы логирования с консольным и файловым выводом.
+    
+    Args:
+        verbose (bool): Включить подробное логирование
+    """
+    # Создаем форматтер для логов
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    
+    # Настраиваем корневой логгер
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG if verbose else logging.INFO)
+    
+    # Очищаем существующие обработчики
+    root_logger.handlers = []
+    
+    # Консольный обработчик
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    console_handler.setLevel(logging.DEBUG if verbose else logging.INFO)
+    root_logger.addHandler(console_handler)
+    
+    # Файловый обработчик
+    file_handler = logging.FileHandler('app.log', encoding='utf-8')
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(logging.DEBUG)  # Всегда пишем подробные логи в файл
+    root_logger.addHandler(file_handler)
+    
+    # Отключаем логи от внешних библиотек
+    for logger_name in ['urllib3', 'chardet', 'charset_normalizer']:
+        logging.getLogger(logger_name).setLevel(logging.WARNING)
 
 def setup_argument_parser() -> argparse.ArgumentParser:
     """
@@ -55,7 +80,7 @@ def setup_argument_parser() -> argparse.ArgumentParser:
     )
     return parser
 
-def process_data(input_data: Dict[str, List[Dict[str, Any]]]) -> Optional[Dict[str, List[Dict[str, Any]]]]:
+def process_data(input_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
     """
     Обработка входных данных через весь конвейер.
     
@@ -63,8 +88,15 @@ def process_data(input_data: Dict[str, List[Dict[str, Any]]]) -> Optional[Dict[s
         input_data (Dict[str, List[Dict[str, Any]]]): Входные данные
         
     Returns:
-        Optional[Dict[str, List[Dict[str, Any]]]]: Обработанные данные или None при ошибке
+        Dict[str, List[Dict[str, Any]]]: Обработанные данные
+        
+    Raises:
+        ValueError: Если входные данные некорректны или None
     """
+    if input_data is None:
+        raise ValueError("Входные данные не могут быть None")
+        
+    logger = logging.getLogger(__name__)
     try:
         # 1. Парсинг сообщений
         logger.info("Начало парсинга сообщений...")
@@ -90,7 +122,7 @@ def process_data(input_data: Dict[str, List[Dict[str, Any]]]) -> Optional[Dict[s
         
     except Exception as e:
         logger.error(f"Ошибка при обработке данных: {str(e)}", exc_info=True)
-        return None
+        raise
 
 def print_processing_summary(data: Dict[str, List[Dict[str, Any]]]) -> None:
     """
@@ -99,6 +131,7 @@ def print_processing_summary(data: Dict[str, List[Dict[str, Any]]]) -> None:
     Args:
         data (Dict[str, List[Dict[str, Any]]]): Обработанные данные
     """
+    logger = logging.getLogger(__name__)
     logger.info("\n=== Сводка по обработанным данным ===")
     
     total_messages = len(data["reports"])
@@ -148,10 +181,10 @@ def main():
         parser = setup_argument_parser()
         args = parser.parse_args()
         
-        # Настройка уровня логирования
-        if args.verbose:
-            logging.getLogger().setLevel(logging.DEBUG)
-            
+        # Настройка логирования
+        setup_logging(args.verbose)
+        logger = logging.getLogger(__name__)
+        
         # Проверка существования входного файла
         if not os.path.exists(args.input_file):
             logger.error(f"Входной файл не найден: {args.input_file}")

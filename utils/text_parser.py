@@ -3,6 +3,34 @@
 
 """
 Модуль для парсинга неструктурированного текста сельскохозяйственных данных.
+
+Этот модуль предоставляет функции для извлечения структурированной информации
+из текстовых сообщений о сельскохозяйственных операциях. Он обрабатывает:
+- Даты проведения операций
+- Типы сельскохозяйственных операций
+- Культуры
+- Подразделения и отделы
+- Метрики (площади, урожайность)
+
+Основные компоненты:
+- Регулярные выражения для поиска паттернов
+- Функции парсинга различных элементов данных
+- Функции валидации и коррекции данных
+
+Пример использования:
+    from utils.text_parser import parse_messages
+    
+    input_data = {
+        "messages": [
+            {
+                "id": 1,
+                "date": "2025-04-12",
+                "payload": "Пахота зяби под мн тр\\nПо Пу 26/488\\nОтд 12 26/221"
+            }
+        ]
+    }
+    
+    parsed_data = parse_messages(input_data)
 """
 
 import re
@@ -23,11 +51,12 @@ from config.reference_data import (
 logger = logging.getLogger(__name__)
 
 # Регулярные выражения для парсинга
-DATE_PATTERN = r'(\d{1,2})[\./](\d{1,2})(?:[\./](\d{4}))?'
-OPERATION_PATTERN = r'^([А-Яа-я\s\-]+)(?:\s+под\s+([А-Яа-я\s]+))?'
-DEPARTMENT_PATTERN = r'Отд\s+(\d+)\s+(\d+)/(\d+)'
-PRODUCTION_UNIT_PATTERN = r'По\s+([А-Яа-я]+)\s+(\d+)/(\d+)'
-METRICS_PATTERN = r'(\d+)/(\d+)'
+DATE_PATTERN = r'(\d{1,2})[\./](\d{1,2})(?:[\./](\d{4}))?'  # Даты в формате DD.MM или DD.MM.YYYY
+ISO_DATE_PATTERN = r'(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})'   # Даты в ISO формате YYYY-MM-DD
+OPERATION_PATTERN = r'^([А-Яа-я\s\-]+)(?:\s+под\s+([А-Яа-я\s]+))?'  # Операция и культура
+DEPARTMENT_PATTERN = r'Отд\s+(\d+)\s+(\d+)/(\d+)'  # Отдел и метрики
+PRODUCTION_UNIT_PATTERN = r'По\s+([А-Яа-я]+)\s+(\d+)/(\d+)'  # Производственный участок и метрики
+METRICS_PATTERN = r'(\d+)/(\d+)'  # Метрики в формате daily/total
 
 # Словарь соответствия отделов подразделениям
 DEPARTMENT_TO_DIVISION = {
@@ -59,11 +88,35 @@ def parse_messages(input_data: Dict[str, List[Dict[str, Any]]]) -> List[Dict[str
     """
     Парсинг всех сообщений во входных данных.
     
+    Эта функция является основной точкой входа для парсинга данных. Она:
+    1. Подготавливает сообщения к обработке
+    2. Обрабатывает каждое сообщение отдельно
+    3. Собирает результаты в единый список
+    
     Args:
-        input_data (Dict[str, List[Dict[str, Any]]]): Входные данные
+        input_data (Dict[str, List[Dict[str, Any]]]): Словарь с входными данными.
+            Ожидаемая структура:
+            {
+                "messages": [
+                    {
+                        "id": int,
+                        "date": str,
+                        "payload": str
+                    },
+                    ...
+                ]
+            }
         
     Returns:
-        List[Dict[str, Any]]: Список распарсенных сообщений
+        List[Dict[str, Any]]: Список обработанных сообщений с извлеченными данными.
+            Каждое сообщение содержит:
+            - Исходный payload
+            - Список распарсенных операций
+            - Метаданные сообщения
+        
+    Raises:
+        ValueError: Если входные данные имеют неверный формат
+        Exception: При других ошибках парсинга
     """
     try:
         # Подготовка сообщений
@@ -92,32 +145,66 @@ def parse_message_payload(payload: str, date: Optional[str] = None) -> List[Dict
     """
     Парсинг текста сообщения.
     
+    Функция разбирает текст сообщения на составляющие:
+    1. Извлекает дату (если не предоставлена)
+    2. Разделяет текст на блоки операций
+    3. Парсит каждый блок отдельно
+    
     Args:
-        payload (str): Текст сообщения
-        date (Optional[str]): Дата сообщения
+        payload (str): Текст сообщения для парсинга
+        date (Optional[str]): Дата сообщения (если известна)
         
     Returns:
-        List[Dict[str, Any]]: Список распарсенных операций
+        List[Dict[str, Any]]: Список распарсенных операций.
+            Каждая операция содержит:
+            - date: str - Дата операции
+            - operation: str - Тип операции
+            - crop: Optional[str] - Культура
+            - division: Optional[str] - Подразделение
+            - department: Optional[int] - Номер отдела
+            - dailyArea: int - Дневная площадь
+            - totalArea: int - Общая площадь
+            
+    Example:
+        >>> payload = "Пахота зяби под мн тр\\nПо Пу 26/488\\nОтд 12 26/221"
+        >>> parse_message_payload(payload, "2025-04-12")
+        [
+            {
+                'date': '12.04',
+                'operation': 'Пахота зяби',
+                'crop': 'Многолетние травы',
+                'division': 'АОР',
+                'department': 12,
+                'dailyArea': 26,
+                'totalArea': 221
+            },
+            ...
+        ]
     """
     try:
         # Извлечение даты если не предоставлена
-        if not date:
-            date = extract_date_from_payload(payload)
-            
+        message_date = None
+        if date:
+            message_date = parse_date(date)
+        if not message_date:
+            # Попробуем найти дату в тексте
+            date_match = re.search(DATE_PATTERN, payload)
+            if date_match:
+                message_date = parse_date(date_match.group(0))
+                
         # Разделение на блоки операций
         operation_blocks = split_into_operation_blocks(payload)
         parsed_operations = []
         
-        # Парсинг каждого блока
         for block in operation_blocks:
-            operations = parse_operation_block(block, date)
+            operations = parse_operation_block(block, message_date)
             parsed_operations.extend(operations)
             
         return parsed_operations
         
     except Exception as e:
-        logger.error(f"Ошибка при парсинге payload: {str(e)}")
-        raise
+        logger.error(f"Ошибка при парсинге сообщения: {str(e)}")
+        return []
 
 def split_into_operation_blocks(payload: str) -> List[str]:
     """
@@ -135,23 +222,43 @@ def split_into_operation_blocks(payload: str) -> List[str]:
     # Фильтрация пустых блоков
     return [block.strip() for block in blocks if block.strip()]
 
-def extract_date_from_payload(payload: str) -> Optional[str]:
+def parse_date(date_str: Optional[str]) -> Optional[str]:
     """
-    Извлечение даты из текста.
+    Парсинг даты из строки.
     
     Args:
-        payload (str): Текст сообщения
+        date_str (Optional[str]): Строка с датой
         
     Returns:
         Optional[str]: Дата в формате DD.MM или None
     """
-    match = re.search(DATE_PATTERN, payload)
-    if match:
-        day, month, year = match.groups()
-        if year:
-            return f"{day}.{month}.{year}"
-        return f"{day}.{month}"
-    return None
+    if not date_str:
+        return None
+        
+    try:
+        # Пробуем ISO формат (YYYY-MM-DD)
+        iso_match = re.match(ISO_DATE_PATTERN, date_str)
+        if iso_match:
+            year, month, day = map(int, iso_match.groups())
+            return f"{day:02d}.{month:02d}"
+            
+        # Пробуем стандартный формат (DD.MM или DD.MM.YYYY)
+        match = re.match(DATE_PATTERN, date_str)
+        if match:
+            day, month, year = match.groups()
+            day = int(day)
+            month = int(month)
+            
+            # Проверяем корректность даты
+            if 1 <= month <= 12 and 1 <= day <= 31:
+                return f"{day:02d}.{month:02d}"
+                
+        logger.warning(f"Не удалось распознать формат даты: {date_str}")
+        return None
+        
+    except Exception as e:
+        logger.error(f"Ошибка при парсинге даты {date_str}: {str(e)}")
+        return None
 
 def parse_operation_block(block: str, date: Optional[str] = None) -> List[Dict[str, Any]]:
     """
@@ -173,7 +280,26 @@ def parse_operation_block(block: str, date: Optional[str] = None) -> List[Dict[s
             
         operation, crop = operation_match.groups()
         operation = correct_operation(operation)
-        crop = correct_crop(crop) if crop else None
+        
+        # Поиск культуры в тексте
+        crop_patterns = [
+            r'под\s+([А-Яа-я\s\.]+?)(?:\s+|$)',  # после "под"
+            r'по\s+([А-Яа-я\s\.]+?)(?:\s+|$)',   # после "по"
+            r'([А-Яа-я\s\.]+?)\s+(?:Отд|По)',    # перед "Отд" или "По"
+        ]
+        
+        found_crop = None
+        for pattern in crop_patterns:
+            crop_match = re.search(pattern, block)
+            if crop_match:
+                found_crop = crop_match.group(1).strip()
+                found_crop = correct_crop(found_crop)
+                if found_crop:
+                    break
+                    
+        # Если культура не найдена, используем значение из operation_match
+        if not found_crop and crop:
+            found_crop = correct_crop(crop)
         
         # Поиск данных по отделам
         department_matches = re.finditer(DEPARTMENT_PATTERN, block)
@@ -185,7 +311,7 @@ def parse_operation_block(block: str, date: Optional[str] = None) -> List[Dict[s
             operation_data = {
                 'date': date,
                 'operation': operation,
-                'crop': crop,
+                'crop': found_crop,
                 'department': dept_num,
                 'dailyArea': daily_area,
                 'totalArea': total_area,
@@ -208,7 +334,7 @@ def parse_operation_block(block: str, date: Optional[str] = None) -> List[Dict[s
             operation_data = {
                 'date': date,
                 'operation': operation,
-                'crop': crop,
+                'crop': found_crop,
                 'productionUnit': pu_name,
                 'dailyArea': int(daily_area),
                 'totalArea': int(total_area),
@@ -222,7 +348,7 @@ def parse_operation_block(block: str, date: Optional[str] = None) -> List[Dict[s
         
     except Exception as e:
         logger.error(f"Ошибка при парсинге блока операции: {str(e)}")
-        raise
+        return []
 
 def extract_operation(text: str) -> Optional[str]:
     """

@@ -5,16 +5,40 @@
       "payload": "Пахота зяби под мн тр\nПо Пу 26/488\nОтд 12 26/221",
       "parsed": [
         {
+          "date": "12.04",
           "division": "АОР",
-          "operation": "Пахота",
+          "operation": "Пахота зяби",
+          "crop": "Многолетние травы",
           "dailyArea": 26,
           "totalArea": 221
         },
         {
+          "date": "12.04",
           "division": "АОР",
-          "operation": "Пахота",
+          "operation": "Пахота зяби",
+          "crop": "Многолетние травы",
           "dailyArea": 26,
           "totalArea": 488
+        }
+      ]
+    },
+    {
+      "message_number": 2,
+      "payload": "Боронование\nПо Пу 15/300\nОтд 5 10/150",
+      "parsed": [
+        {
+          "date": "13.04",
+          "division": "АОР",
+          "operation": "Боронование",
+          "dailyArea": 10,
+          "totalArea": 150
+        },
+        {
+          "date": "13.04",
+          "division": "АОР",
+          "operation": "Боронование",
+          "dailyArea": 15,
+          "totalArea": 300
         }
       ]
     }
